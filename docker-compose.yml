@@ -1,11 +1,11 @@
 services:
   mysqldb:
-    image: mysql:8.3
+    image: mysql:9.2
     container_name: cardsCollec-db
     environment:
-      MYSQL_HOST: mysqldb
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cards-collec
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - 3306:3306
     volumes:
@@ -17,9 +17,7 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: cardsCollec-pma
     environment:
-      PMA_HOST: mysqldb
-    links:
-      - mysqldb:mysqldb
+      PMA_HOST: ${MYSQL_HOST}
     ports:
       - 8080:80
     volumes:
