@@ -35,7 +35,7 @@ services:
     environment:
       DB_HOST: ${MYSQL_HOST}
       DB_USER: root
-      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DB_NAME: ${MYSQL_DATABASE}
     restart: unless-stopped
 
