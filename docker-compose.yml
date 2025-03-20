@@ -13,6 +13,9 @@ services:
     volumes:
       - cardsCollec-dbdata:/var/lib/mysql
     restart: unless-stopped
+    networks:
+      - default
+      - pma_network
 
   cc-node:
     image: akuan09/cards-collec:latest
@@ -31,3 +34,8 @@ services:
 
 volumes:
   cardsCollec-dbdata:
+
+networks:
+  default:
+  pma_network:
+    external: true
