@@ -1,5 +1,5 @@
 services:
-  mysqldb:
+  cc-mysql:
     image: mysql:9.2
     container_name: cardsCollec-db
     environment:
@@ -11,35 +11,23 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - dbdata:/var/lib/mysql
+      - cardsCollec-dbdata:/var/lib/mysql
     restart: unless-stopped
 
-  phpmyadmin:
-    depends_on:
-      - mysqldb
-    image: phpmyadmin/phpmyadmin
-    container_name: cardsCollec-pma
-    environment:
-      PMA_HOST: ${MYSQL_HOST}
-    ports:
-      - 8080:80
-    volumes:
-      - ./blueberry/:/var/www/html/themes/blueberry/
-    restart: unless-stopped
-
-  node:
+  cc-node:
     image: akuan09/cards-collec:latest
     container_name: cardsCollec-node
     depends_on:
       - mysqldb
     ports:
-      - 3000:3000
+      - 12000:3000
     environment:
       DB_HOST: ${MYSQL_HOST}
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_NAME: ${MYSQL_DATABASE}
+      PORT: ${NODE_PORT}
     restart: unless-stopped
 
 volumes:
-  dbdata:
+  cardsCollec-dbdata:
