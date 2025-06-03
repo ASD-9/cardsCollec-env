@@ -28,6 +28,8 @@ services:
       PORT: ${NODE_PORT}
       JWT_SECRET: ${JWT_SECRET}
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+    volumes:
+      - ./public:/usr/src/app/public
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
