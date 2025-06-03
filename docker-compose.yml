@@ -8,8 +8,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - 3306:3306
     volumes:
       - cardsCollec-dbdata:/var/lib/mysql
     restart: unless-stopped
@@ -22,8 +20,6 @@ services:
     container_name: cardsCollec-node
     depends_on:
       - cc-mysql
-    ports:
-      - 12000:3000
     environment:
       DB_HOST: ${MYSQL_HOST}
       DB_USER: ${MYSQL_USER}
@@ -33,6 +29,15 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cc-node.rule=Host(`cc-api.asd9.fun`)"
+      - "traefik.http.routers.cc-node.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-node.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik_network"
+    networks:
+      - default
+      - traefik_network
 
 volumes:
   cardsCollec-dbdata:
@@ -40,4 +45,6 @@ volumes:
 networks:
   default:
   pma_network:
+    external: true
+  traefik_network:
     external: true
